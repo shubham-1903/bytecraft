@@ -24,11 +24,9 @@ const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Invalid email address" }),
   ageGroup: z.string().min(1, { message: "Please select an age group" }),
-  language: z.string().min(1, { message: "Please select a language" }),
-  studyGoals: z.string().min(2, { message: "Please specify your study goals" }),
+  subject: z.string().min(2, { message: "Please specify your subjects" }),
   learningReasons: z.array(z.string()).min(1, { message: "Select at least one reason" }),
-  timePerWeek: z.string().min(1, { message: "Please select time commitment" }),
-  completionDate: z.string().min(1, { message: "Please select a completion date" }),
+  estimatedDays: z.string().min(1, { message: "Please provide estimated days" }),
   studyFormats: z.array(z.string()).min(1, { message: "Select at least one format" }),
   aiFeedback: z.boolean(),
   structuredSchedule: z.boolean(),
@@ -249,6 +247,7 @@ export const ProfileForm = () => {
   );
 
   const onSubmit = (data) => {
+    console.log("clicked");
     console.log(data);
     // Handle form submission here
   };
