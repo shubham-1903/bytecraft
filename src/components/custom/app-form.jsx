@@ -374,11 +374,9 @@ export const ProfileForm = () => {
       name: '',
       email: '',
       ageGroup: '',
-      language: '',
-      studyGoals: '',
+      subject: '',
       learningReasons: [],
-      timePerWeek: '',
-      completionDate: '',
+      estimatedDays: '',
       studyFormats: [],
       aiFeedback: false,
       structuredSchedule: false,
@@ -443,28 +441,6 @@ export const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="language"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Preferred Language</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select language" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="english">English</SelectItem>
-                  <SelectItem value="spanish">Spanish</SelectItem>
-                  <SelectItem value="french">French</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
       </CardContent>
     </div>
   );
@@ -472,12 +448,12 @@ export const ProfileForm = () => {
   const Step2 = () => (
     <div className="space-y-4">
       <CardHeader>
-        <CardTitle>Study Goals</CardTitle>
+        <CardTitle>Subject</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <FormField
           control={form.control}
-          name="studyGoals"
+          name="subject"
           render={({ field }) => (
             <FormItem>
               <FormLabel>What do you want to learn?</FormLabel>
@@ -519,34 +495,12 @@ export const ProfileForm = () => {
         />
         <FormField
           control={form.control}
-          name="timePerWeek"
+          name="estimatedDays"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Time per week</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select time" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="2hrs">2 hours</SelectItem>
-                  <SelectItem value="5hrs">5 hours</SelectItem>
-                  <SelectItem value="10hrs">10 hours</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="completionDate"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Completion Date</FormLabel>
+              <FormLabel>Estimated Days</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input type="text" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
