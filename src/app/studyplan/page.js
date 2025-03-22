@@ -33,6 +33,7 @@ export default function Assessment() {
           },
         });
         const studyPlan = response.data.result.subjects[0];
+        localStorage.setItem("studyPlan",JSON.stringify(studyPlan));
         setStudyPlanData(studyPlan.studyPlan); // Setting the study plan data
         setQuizData(studyPlan.quiz); // Setting the quiz data
         setAssignments(studyPlan.assignments || []); // Assuming assignments is part of the API response
@@ -224,14 +225,7 @@ export default function Assessment() {
                 <p className="text-2xl font-semibold text-gray-800">
                   Your Score: <span className="text-green-500">{score}</span> / {quizData.length}
                 </p>
-                <div className="mt-6">
-                  <Button
-                    className="py-4 px-8 bg-blue-500 hover:bg-blue-600 text-lg font-bold rounded-lg shadow-lg"
-                    onClick={() => window.location.reload()}
-                  >
-                    Retry Quiz
-                  </Button>
-                </div>
+
               </div>
             )}
           </>

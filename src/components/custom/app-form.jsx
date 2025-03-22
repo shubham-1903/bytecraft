@@ -116,6 +116,7 @@ export const ProfileForm = () => {
   );
 
   const onSubmit = (data) => {
+    setLoading(true);
     console.log("clicked");
     console.log(data);
     setFormData(data);
@@ -129,8 +130,12 @@ export const ProfileForm = () => {
           {<Step2 />}
 
           <div className="flex justify-between p-6">
-            <Button type="submit" className="ml-auto">
-              Submit
+            <Button 
+              type="submit" 
+              className="ml-auto"
+              disabled={loading} // Disable button when loading is true
+            >
+              {loading ? "Submitting..." : "Submit"} {/* Optional: Change button text */}
             </Button>
           </div>
         </form>
