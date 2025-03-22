@@ -17,6 +17,7 @@ export default function Assessment() {
   const [assignments, setAssignments] = useState([]);
   const [youtubeResults, setYoutubeResults] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state to show loading spinner
+  const [blogResults, setBlogResults] = useState([])
 
   const formData = useFormStore((state) => state.formData);
 
@@ -28,15 +29,16 @@ export default function Assessment() {
             subject: formData.subject,
             dailyHours: "3",
             totalDays: formData.estimatedDays,
-            level: "Beginner",
+            level: formData.learningReasons[0],
           },
         });
         const studyPlan = response.data.result.subjects[0];
         setStudyPlanData(studyPlan.studyPlan); // Setting the study plan data
         setQuizData(studyPlan.quiz); // Setting the quiz data
         setAssignments(studyPlan.assignments || []); // Assuming assignments is part of the API response
-        setYoutubePlaylist(studyPlan.youtubeResults || ""); // Setting YouTube playlist URL if available
+        setYoutubeResults(studyPlan.youtubeResults || ""); // Setting YouTube playlist URL if available
         setLoading(false); // Data is loaded
+        setBlogResults(studyPlan.blogResults)
       } catch (error) {
         console.error("Error fetching study plan data");
         setLoading(false);
@@ -85,7 +87,7 @@ export default function Assessment() {
 
   // Loading spinner JSX
   const LoadingSpinner = () => (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-[#e0e0e0] via-[#d0d0d0] to-[#b8b8b8]">
+    <div className="flex justify-center items-center min-h-screen bg-[#CDDBFE]">
       <div className="relative w-16 h-16 rounded-full border-t-4 border-b-4 border-blue-500 animate-spin">
         <div className="absolute inset-0 m-auto w-12 h-12 rounded-full border-t-4 border-b-4 border-green-500 animate-spin"></div>
       </div>
@@ -93,7 +95,7 @@ export default function Assessment() {
   );
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-gradient-to-br from-[#e0e0e0] via-[#d0d0d0] to-[#b8b8b8] text-black">
+    <div className="flex justify-center items-center min-h-screen w-full bg-[#E5EDFF] text-black">
       <div className="w-full max-w-4xl p-6">
         {/* Show Loading Spinner while fetching data */}
         {loading ? (
@@ -107,22 +109,26 @@ export default function Assessment() {
                   Study Plan for {studyPlanData[0]?.topic ? studyPlanData[0]?.topic.split(' ')[0] : 'Python'}
                 </h2>
 
-                <h3 className="text-2xl font-semibold mb-4">Study Plan</h3>
                 <div className="space-y-6">
                   {studyPlanData.map((plan, index) => (
-                    <Card key={index} className="shadow-lg rounded-xl bg-white p-6">
-                      <CardContent>
-                        <h4 className="text-xl font-bold text-[#2d3748]">Day {plan.day}: {plan.topic}</h4>
+                    <div key={index} className="shadow-lg rounded-xl bg-white p-6 transform transition-all hover:scale-105 hover:shadow-2xl">
+                      <div>
+                        <h4 className="text-xl font-semibold text-[#2d3748] mb-2">
+                          <span className="text-lg font-bold text-blue-500">Day {plan.day}</span>
+                        </h4>
+                        <p>
+                        {plan.topic}
+                        </p>
 
                         {/* Display Assignment Component */}
                         {assignments.length > 0 && assignments[index] && (
-                          <div className="mt-4 bg-gray-100 p-4 rounded-md">
-                            <h5 className="text-lg font-semibold text-gray-800">Assignment</h5>
-                            <p>{assignments[index]}</p>
+                          <div className="mt-6 bg-blue-50 p-4 rounded-md border-l-4 border-blue-500 shadow-md">
+                            <h5 className="text-lg font-semibold text-gray-800 mb-2">Assignment</h5>
+                            <p className="text-gray-700">{assignments[index]}</p>
                           </div>
                         )}
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   ))}
                 </div>
 
@@ -144,6 +150,20 @@ export default function Assessment() {
                   </div>
                 </div>
 
+                <div>
+                  <h3 className="text-2xl font-semibold mb-4">Recommended Blog Articles</h3>
+                  <div className="space-y-4">
+                    {blogResults.map((blog, index) => (
+                      <div key={index} className="bg-white p-4 rounded-lg shadow-lg">
+                        <a href={blog.url} className="text-lg font-medium text-blue-600 hover:underline">
+                          {blog.title}
+                        </a>
+                        <p className="text-sm text-gray-500 mt-2">{blog.snippet}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <Button
                   className="w-full py-4 bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 text-lg font-bold rounded-lg mt-6"
                   onClick={() => setQuizStarted(true)}
@@ -157,7 +177,7 @@ export default function Assessment() {
             {quizStarted && !showResult && (
               <Card className="w-full shadow-2xl rounded-2xl bg-[#f5f5f5] border border-gray-400 mt-6">
                 <CardContent>
-                  <h2 className="text-3xl font-bold text-center mb-6 text-[#f59e0b]">
+                  <h2 className="text-3xl font-bold text-center mb-6">
                     {quizData[currentQuestion]?.question}
                   </h2>
 
@@ -198,7 +218,7 @@ export default function Assessment() {
             {/* Quiz Result Component */}
             {showResult && (
               <div className="text-center">
-                <h2 className="text-5xl font-extrabold text-[#f59e0b] mb-4">
+                <h2 className="text-5xl font-extrabold mb-4">
                   🎉 Quiz Completed! 🎉
                 </h2>
                 <p className="text-2xl font-semibold text-gray-800">

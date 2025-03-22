@@ -101,13 +101,13 @@ export async function GET(request) {
     // 🔹 3️⃣ Fetch Blogs (Commented out, add if needed)
     let blogResults = [];
     // Example (uncomment and configure if using Google Search API):
-    // const googleSearchApi = `https://www.googleapis.com/customsearch/v1?q=${subject} learning guide&cx=${process.env.GOOGLE_CX}&key=${process.env.GOOGLE_SEARCH_API_KEY}`;
-    // const blogResponse = await axios.get(googleSearchApi);
-    // blogResults = blogResponse.data.items.map((blog) => ({
-    //   title: blog.title,
-    //   snippet: blog.snippet,
-    //   url: blog.link,
-    // }));
+    const googleSearchApi = `https://www.googleapis.com/customsearch/v1?q=${subject} learning guide&cx=${process.env.GOOGLE_CX}&key=${process.env.GOOGLE_SEARCH_API_KEY}`;
+    const blogResponse = await axios.get(googleSearchApi);
+    blogResults = blogResponse.data.items.map((blog) => ({
+      title: blog.title,
+      snippet: blog.snippet,
+      url: blog.link,
+    }));
 
     // 🔹 4️⃣ Return Final JSON Response
     const response = {
