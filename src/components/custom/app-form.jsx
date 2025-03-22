@@ -18,6 +18,8 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useFormStore } from "@/store/useFormStore"
+import { useRouter } from "next/navigation";
 
 // Define schema for validation
 const formSchema = z.object({
@@ -34,6 +36,9 @@ const formSchema = z.object({
 
 export const ProfileForm = () => {
   const [step, setStep] = useState(1);
+  const setFormData = useFormStore((state) => state.setFormData);
+  const router = useRouter();
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -249,6 +254,8 @@ export const ProfileForm = () => {
   const onSubmit = (data) => {
     console.log("clicked");
     console.log(data);
+    setFormData(data);
+    router.push("/studyplan")
     // Handle form submission here
   };
 

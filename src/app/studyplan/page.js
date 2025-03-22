@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
+import { useFormStore } from "@/store/useFormStore"
 
 export default function Assessment() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -17,10 +18,19 @@ export default function Assessment() {
   const [youtubeResults, setYoutubeResults] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state to show loading spinner
 
+  const formData = useFormStore((state) => state.formData);
+
   useEffect(() => {
     const fetchStudyPlan = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/study-recommendations');
+        const response = await axios.get('/api/study-recommendations', {
+          params: {
+            subject: formData.subject,
+            dailyHours: "3",
+            totalDays: formData.estimatedDays,
+            level: "Beginner",
+          },
+        });
         const studyPlan = response.data.result.subjects[0];
         setStudyPlanData(studyPlan.studyPlan); // Setting the study plan data
         setQuizData(studyPlan.quiz); // Setting the quiz data
