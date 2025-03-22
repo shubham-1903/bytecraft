@@ -14,24 +14,24 @@ import {
 const items = [
 	{
 		title: "Home",
-		url: "",
+		url: "/",
 		icon: Home,
 	},
 	{
-		title: "Inbox",
-		url: "#",
+		title: "Getting Started",
+		url: "/byte-form",
 		icon: Inbox,
 	},
 	{
-		title: "Assessment",
-		url: "/assessment",
+		title: "ScoreCards",
+		url: "/scorecard",
 		icon: Calendar,
 	},
-	{
-		title: "Search",
-		url: "#",
-		icon: Search,
-	},
+	// {
+	// 	title: "Results",
+	// 	url: "#",
+	// 	icon: Search,
+	// },
 	{
 		title: "Settings",
 		url: "#",
